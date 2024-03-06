@@ -1,0 +1,22 @@
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+    App\Infrastructure\Persistence\Doctrine\Repository\WalletRepository:
+        factory: [ '@doctrine.orm.entity_manager', getRepository ]
+        arguments: [ App\Infrastructure\Persistence\Doctrine\Entity\Wallet ]
+    App\Infrastructure\Persistence\Doctrine\Repository\BalanceChangeRepository:
+        factory: [ '@doctrine.orm.entity_manager', getRepository ]
+        arguments: [ App\Infrastructure\Persistence\Doctrine\Entity\BalanceChange ]
+    App\Infrastructure\Persistence\Doctrine\Repository\ExchangeRateRepository:
+        factory: [ '@doctrine.orm.entity_manager', getRepository ]
+        arguments: [ App\Infrastructure\Persistence\Doctrine\Entity\ExchangeRate ]
