@@ -20,17 +20,21 @@
 }
 ```
 ## Todo
+- Фабрики для генерации VO и моделей
 - Специфицировать все exceptions
 - Генератор данных - генерация на основе транзакций
 - MoneyVO - применение BC Math или moneyphp/money
 
 ## SQL
+Запрос ниже актуален в случае хранения транзакций (balance_changes) в USD (
+с применением обработчика USDBalanceChangeMakerMoneyService)
 ```sql
 SELECT SUM(bc.amount) as sum
 FROM balance_change bc
 WHERE bc.change_reason='REFUND'
     AND created_at >= (now() - interval '1 week');
 ```
+
 По запросу и связанной с ним бизнес-логикой - зависит от задачи, поскольку сам 
 по себе он, в контексте различных валют и разных кошельков, смысла не имеет. 
 Также это аффектит применяемые индексы.

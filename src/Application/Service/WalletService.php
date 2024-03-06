@@ -8,13 +8,14 @@ use App\Application\Exception\WalletNotFoundException;
 use App\Domain\Wallet\Exception\NegativeAmountException;
 use App\Domain\Wallet\Exception\UnknownCurrencyException;
 use App\Domain\Wallet\Model\Wallet as DomainWallet;
+use App\Domain\Wallet\Repository\WalletRepositoryInterface;
 use App\Domain\Wallet\ValueObject\Money;
 use App\Infrastructure\Persistence\Doctrine\Repository\WalletRepository;
 
 final readonly class WalletService
 {
     public function __construct(
-        private WalletRepository $walletRepository
+        private WalletRepositoryInterface $walletRepository
     ) {
     }
 
@@ -27,25 +28,5 @@ final readonly class WalletService
     {
         // @refactor Должно быть проведено через доменный слой
         $this->walletRepository->save($domainWallet);
-    }
-
-    /**
-     * @param int $walletId
-     *
-     * @return Money
-     *
-     * @throws NegativeAmountException
-     * @throws UnknownCurrencyException
-     * @throws WalletNotFoundException
-     */
-    public function getBalance(
-        int $walletId,
-    ): Money {
-        $wallet = $this->walletRepository->findById($walletId);
-        if (!$wallet) {
-            throw new WalletNotFoundException();
-        }
-
-        return $wallet->getBalance();
     }
 }

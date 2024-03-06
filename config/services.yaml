@@ -20,3 +20,11 @@ services:
     App\Infrastructure\Persistence\Doctrine\Repository\ExchangeRateRepository:
         factory: [ '@doctrine.orm.entity_manager', getRepository ]
         arguments: [ App\Infrastructure\Persistence\Doctrine\Entity\ExchangeRate ]
+
+    App\Domain\BalanceChange\Service\BalanceChangeMakerMoneyServiceInterface: '@balance_change_maker_money'
+
+    balance_change_maker_money:
+        class: App\Domain\BalanceChange\Service\USDBalanceChangeMakerMoneyService
+
+    App\Domain\BalanceChange\Service\SimpleBalanceChangeMakerMoneyService:
+        class: App\Domain\BalanceChange\Service\SimpleBalanceChangeMakerMoneyService
